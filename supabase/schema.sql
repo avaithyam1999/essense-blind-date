@@ -415,12 +415,37 @@ end;
 $$ language plpgsql security definer;
 
 -- ---------------------------------------------------------------------------
+-- messages: chat between matched users. A message always belongs to a match;
+-- RLS below restricts both reading and sending to the two participants of
+-- that match, and you can only send as yourself. Realtime is enabled so the
+-- app can subscribe to new messages per match.
+-- ---------------------------------------------------------------------------
+create table if not exists messages (
+  id uuid primary key default gen_random_uuid(),
+  match_id uuid not null references matches (id) on delete cascade,
+  sender_id uuid not null references profiles (id) on delete cascade,
+  body text not null check (char_length(body) between 1 and 2000),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists messages_match_created_idx
+  on messages (match_id, created_at);
+
+-- Idempotent: adding a table to the publication twice errors.
+do $$
+begin
+  alter publication supabase_realtime add table messages;
+exception when duplicate_object then null;
+end $$;
+
+-- ---------------------------------------------------------------------------
 -- Row Level Security
 -- ---------------------------------------------------------------------------
 alter table profiles enable row level security;
 alter table swipes enable row level security;
 alter table matches enable row level security;
 alter table queue_exposures enable row level security;
+alter table messages enable row level security;
 
 -- Profiles: users can only see/edit their own full row directly. Browsing
 -- other users' profiles happens exclusively through build_queue() and
@@ -453,3 +478,22 @@ create policy "matches: read own matches"
 create policy "queue_exposures: read own exposure records"
   on queue_exposures for select
   using (auth.uid() = shown_to);
+
+create policy "messages: participants read"
+  on messages for select
+  using (exists (
+    select 1 from matches m
+    where m.id = match_id
+      and (m.user_a = auth.uid() or m.user_b = auth.uid())
+  ));
+
+create policy "messages: participants send as self"
+  on messages for insert
+  with check (
+    sender_id = auth.uid()
+    and exists (
+      select 1 from matches m
+      where m.id = match_id
+        and (m.user_a = auth.uid() or m.user_b = auth.uid())
+    )
+  );

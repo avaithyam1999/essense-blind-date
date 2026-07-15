@@ -103,3 +103,11 @@ export interface Match {
   user_b: string;
   created_at: string;
 }
+
+export interface Message {
+  id: string;
+  match_id: string;
+  sender_id: string;
+  body: string;
+  created_at: string;
+}
