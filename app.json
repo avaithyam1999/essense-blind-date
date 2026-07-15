@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "Blind Date",
+    "slug": "blind-date-app",
+    "scheme": "blinddate",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.blinddate.app"
+    },
+    "android": {
+      "package": "com.blinddate.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#F7F3ED"
+      }
+    },
+    "plugins": ["expo-router"]
+  }
+}

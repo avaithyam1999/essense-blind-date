@@ -1,0 +1,1194 @@
+{
+  "schema_version": "0.1",
+  "field_notes": {
+    "physical_description.build": "optional / skippable",
+    "physical_description.height": "optional / skippable",
+    "physical_description.signature_detail": "optional / skippable",
+    "questionnaire": "feeds the compatibility score; categories weighted evenly (values_lifestyle / interests / personality) per product decision",
+    "gender_seeking": "pre-filter, not part of the blended compatibility score \u2014 a mismatch here excludes the profile from the queue entirely and scores 0 if ever encountered"
+  },
+  "profiles": [
+    {
+      "id": "p01",
+      "name": "Maya Chen",
+      "age": 29,
+      "gender": "woman",
+      "seeking": [
+        "man"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "East Austin"
+      },
+      "self_description": "Runs a small ceramics studio and will absolutely talk your ear off about glaze chemistry if you let her. Looking for someone who can go from a deep conversation about grief to a debate about the best breakfast taco within the same hour.",
+      "physical_description": {
+        "favorite_feature": "My hands \u2014 they're always covered in clay and I've made peace with that.",
+        "style_and_vibe": "Effortless and earthy, thrifted linen over anything trendy.",
+        "build": "average, athletic from studio work",
+        "height": "5 ft 6 in",
+        "hair": "Dark brown, usually in a messy bun",
+        "signature_detail": "Always has at least one ring made from her own studio.",
+        "energy_others_notice": "warm and a little chaotic in the best way"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term relationship",
+          "wants_kids": "yes",
+          "career_centrality": 3,
+          "conflict_style": "collaborative problem-solver",
+          "substance_use": "social drinker",
+          "chronotype": "early bird",
+          "routine_vs_spontaneity": 3,
+          "religion_importance": 2,
+          "politics_importance": 4
+        },
+        "interests": {
+          "top_hobbies": [
+            "ceramics",
+            "farmers markets",
+            "trail running"
+          ],
+          "social_battery": 3,
+          "travel_frequency": "few times a year",
+          "fitness_level": "casually active",
+          "food_style": "adventurous eater",
+          "music_taste": "Folk and 90s R&B",
+          "media_taste": "Documentaries and cozy mysteries"
+        },
+        "personality": {
+          "social_energy_scale": 3,
+          "planner_vs_spontaneous": 3,
+          "emotional_expressiveness": 4,
+          "humor_style": "witty/quick",
+          "love_language": "quality time",
+          "recharge_style": "creative outlets",
+          "communication_style": "direct"
+        }
+      },
+      "card_teaser": "Will judge your kitchenware, gently."
+    },
+    {
+      "id": "p02",
+      "name": "Jordan Ellis",
+      "age": 31,
+      "gender": "man",
+      "seeking": [
+        "woman"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "South Congress"
+      },
+      "self_description": "Product manager by day, amateur woodworker by night. Spent two years building a canoe in his garage and still isn't sure it floats. Wants someone who's genuinely curious about the world and won't mind a slightly sawdust-covered car.",
+      "physical_description": {
+        "favorite_feature": "My smile lines \u2014 my grandmother said I got them from laughing too much as a kid.",
+        "style_and_vibe": "Classic and put-together, but always in boots.",
+        "build": "tall and lean",
+        "height": "6 ft 1 in",
+        "hair": "Sandy blonde, short and practical",
+        "signature_detail": "Wears the same flannel so often friends have started buying him new ones as a joke.",
+        "energy_others_notice": "steady, the friend everyone calls first with good news"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term relationship",
+          "wants_kids": "yes",
+          "career_centrality": 4,
+          "conflict_style": "needs time to process first",
+          "substance_use": "social drinker",
+          "chronotype": "early bird",
+          "routine_vs_spontaneity": 2,
+          "religion_importance": 1,
+          "politics_importance": 3
+        },
+        "interests": {
+          "top_hobbies": [
+            "woodworking",
+            "cycling",
+            "cooking"
+          ],
+          "social_battery": 3,
+          "travel_frequency": "monthly if possible",
+          "fitness_level": "regular gym-goer",
+          "food_style": "foodie/loves fine dining",
+          "music_taste": "Indie rock and classic soul",
+          "media_taste": "Sci-fi novels, sports documentaries"
+        },
+        "personality": {
+          "social_energy_scale": 3,
+          "planner_vs_spontaneous": 2,
+          "emotional_expressiveness": 3,
+          "humor_style": "dry/sarcastic",
+          "love_language": "acts of service",
+          "recharge_style": "alone time",
+          "communication_style": "gentle/diplomatic"
+        }
+      },
+      "card_teaser": "The canoe floats. Mostly."
+    },
+    {
+      "id": "p03",
+      "name": "Priya Nair",
+      "age": 26,
+      "gender": "woman",
+      "seeking": [
+        "woman"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "Hyde Park"
+      },
+      "self_description": "ER nurse who processes a wild work week by baking absurdly ambitious desserts. Looking for someone low-drama, high-substance \u2014 someone who'll sit with her on the porch after a rough shift and not need it explained.",
+      "physical_description": {
+        "favorite_feature": "My eyebrows \u2014 they do a lot of the talking for me.",
+        "style_and_vibe": "Comfortable and a little androgynous \u2014 oversized sweaters, good boots.",
+        "build": null,
+        "height": null,
+        "hair": "Black, cropped short",
+        "signature_detail": "Always smells like cardamom from whatever she baked that week.",
+        "energy_others_notice": "calm under pressure, quietly funny"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term relationship",
+          "wants_kids": "unsure",
+          "career_centrality": 4,
+          "conflict_style": "direct and immediate",
+          "substance_use": "sober",
+          "chronotype": "night owl",
+          "routine_vs_spontaneity": 2,
+          "religion_importance": 3,
+          "politics_importance": 4
+        },
+        "interests": {
+          "top_hobbies": [
+            "baking",
+            "true crime podcasts",
+            "hiking"
+          ],
+          "social_battery": 2,
+          "travel_frequency": "rarely travels",
+          "fitness_level": "casually active",
+          "food_style": "comfort food loyalist",
+          "music_taste": "Lo-fi and old Bollywood",
+          "media_taste": "Medical dramas (for the wrong reasons) and true crime"
+        },
+        "personality": {
+          "social_energy_scale": 2,
+          "planner_vs_spontaneous": 2,
+          "emotional_expressiveness": 3,
+          "humor_style": "dark humor",
+          "love_language": "acts of service",
+          "recharge_style": "alone time",
+          "communication_style": "direct"
+        }
+      },
+      "card_teaser": "Has seen worse than your bad day. Bring dessert anyway."
+    },
+    {
+      "id": "p04",
+      "name": "Theo Brandt",
+      "age": 34,
+      "gender": "man",
+      "seeking": [
+        "man"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "Rainey Street"
+      },
+      "self_description": "Architect who spends most weekends restoring a very stubborn 1920s bungalow. Wants someone opinionated about design, unbothered by a little construction dust, and up for arguing about the merits of open floor plans.",
+      "physical_description": {
+        "favorite_feature": "My forearms, from years of drafting by hand and sanding old wood.",
+        "style_and_vibe": "Clean lines, neutral tones, very intentional about everything he wears.",
+        "build": "athletic",
+        "height": "5 ft 11 in",
+        "hair": "Dark, always neatly cut",
+        "signature_detail": "Wears his late father's watch every day.",
+        "energy_others_notice": "quietly magnetic, the one people gravitate to at parties without knowing why"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term relationship",
+          "wants_kids": "yes",
+          "career_centrality": 5,
+          "conflict_style": "collaborative problem-solver",
+          "substance_use": "social drinker",
+          "chronotype": "early bird",
+          "routine_vs_spontaneity": 2,
+          "religion_importance": 1,
+          "politics_importance": 4
+        },
+        "interests": {
+          "top_hobbies": [
+            "home renovation",
+            "cycling",
+            "art museums"
+          ],
+          "social_battery": 3,
+          "travel_frequency": "few times a year",
+          "fitness_level": "regular gym-goer",
+          "food_style": "foodie/loves fine dining",
+          "music_taste": "Jazz and ambient electronic",
+          "media_taste": "Design documentaries, architecture books"
+        },
+        "personality": {
+          "social_energy_scale": 3,
+          "planner_vs_spontaneous": 1,
+          "emotional_expressiveness": 3,
+          "humor_style": "dry/sarcastic",
+          "love_language": "quality time",
+          "recharge_style": "creative outlets",
+          "communication_style": "direct"
+        }
+      },
+      "card_teaser": "Will absolutely notice your crown molding."
+    },
+    {
+      "id": "p05",
+      "name": "Sofia Reyes",
+      "age": 24,
+      "gender": "woman",
+      "seeking": [
+        "man"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "Mueller"
+      },
+      "self_description": "Second-year grad student studying marine biology, which means she has an alarming number of octopus facts on standby. Looking for someone kind, curious, and not intimidated by a woman with a five-year plan.",
+      "physical_description": {
+        "favorite_feature": "My freckles \u2014 I used to hate them, now they're my favorite thing about my face.",
+        "style_and_vibe": "Colorful and a little eclectic, thrift-store treasures mixed with practical fieldwork gear.",
+        "build": "petite, athletic",
+        "height": "5 ft 3 in",
+        "hair": "Auburn, long and often in a braid",
+        "signature_detail": "Never without a tote bag full of books she's 'definitely going to finish.'",
+        "energy_others_notice": "bright and a little intense in the best way"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term, open to short-term",
+          "wants_kids": "yes",
+          "career_centrality": 4,
+          "conflict_style": "direct and immediate",
+          "substance_use": "social drinker",
+          "chronotype": "night owl",
+          "routine_vs_spontaneity": 3,
+          "religion_importance": 1,
+          "politics_importance": 5
+        },
+        "interests": {
+          "top_hobbies": [
+            "scuba diving",
+            "reading sci-fi",
+            "rock climbing"
+          ],
+          "social_battery": 4,
+          "travel_frequency": "few times a year",
+          "fitness_level": "highly active/athlete",
+          "food_style": "adventurous eater",
+          "music_taste": "Alt-pop and film scores",
+          "media_taste": "Sci-fi everything, nature documentaries"
+        },
+        "personality": {
+          "social_energy_scale": 4,
+          "planner_vs_spontaneous": 4,
+          "emotional_expressiveness": 4,
+          "humor_style": "silly/goofy",
+          "love_language": "words of affirmation",
+          "recharge_style": "physical activity",
+          "communication_style": "very expressive"
+        }
+      },
+      "card_teaser": "Ask her about the mimic octopus. Just ask."
+    },
+    {
+      "id": "p06",
+      "name": "Marcus Webb",
+      "age": 38,
+      "gender": "man",
+      "seeking": [
+        "woman"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "Zilker"
+      },
+      "self_description": "Divorced dad of two, restaurant owner, allergic to small talk. After a rough few years is finally ready to date again \u2014 looking for someone steady, funny, and unfazed by a Tuesday night that occasionally has to end at 9pm for bedtime logistics.",
+      "physical_description": {
+        "favorite_feature": "My laugh lines. Earned every one of them.",
+        "style_and_vibe": "Casual and unfussy, chef whites more often than not, jeans and a good watch otherwise.",
+        "build": "stocky, broad-shouldered",
+        "height": "5 ft 10 in",
+        "hair": "Salt and pepper, always a little unkempt",
+        "signature_detail": "Permanent flour dust somewhere on his clothes.",
+        "energy_others_notice": "grounded, the guy people trust immediately"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term relationship",
+          "wants_kids": "already have kids, done",
+          "career_centrality": 4,
+          "conflict_style": "needs time to process first",
+          "substance_use": "social drinker",
+          "chronotype": "early bird",
+          "routine_vs_spontaneity": 2,
+          "religion_importance": 2,
+          "politics_importance": 3
+        },
+        "interests": {
+          "top_hobbies": [
+            "cooking",
+            "youth soccer coaching",
+            "fishing"
+          ],
+          "social_battery": 3,
+          "travel_frequency": "rarely travels",
+          "fitness_level": "casually active",
+          "food_style": "foodie/loves fine dining",
+          "music_taste": "Classic rock and outlaw country",
+          "media_taste": "Westerns, cooking competition shows"
+        },
+        "personality": {
+          "social_energy_scale": 3,
+          "planner_vs_spontaneous": 2,
+          "emotional_expressiveness": 2,
+          "humor_style": "dry/sarcastic",
+          "love_language": "acts of service",
+          "recharge_style": "time with close friends",
+          "communication_style": "gentle/diplomatic"
+        }
+      },
+      "card_teaser": "Will cook for you unprompted. It's a whole thing."
+    },
+    {
+      "id": "p07",
+      "name": "Nina Kowalski",
+      "age": 27,
+      "gender": "nonbinary",
+      "seeking": [
+        "man",
+        "woman",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "Clarksville"
+      },
+      "self_description": "Freelance illustrator, plant parent to an unreasonable number of pothos. Looking for connection over labels \u2014 someone who's emotionally available, likes long walks and longer conversations, and doesn't need every plan pinned down in advance.",
+      "physical_description": {
+        "favorite_feature": "My tattoos \u2014 each one has a dumb story attached.",
+        "style_and_vibe": "Eclectic, layered, somewhere between vintage and streetwear.",
+        "build": null,
+        "height": "5 ft 7 in",
+        "hair": "Bleached blonde, buzzed on one side",
+        "signature_detail": "Always has paint somewhere on their hands.",
+        "energy_others_notice": "a little mysterious until you get them talking about art, then unstoppable"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "not sure yet, figuring it out",
+          "wants_kids": "unsure",
+          "career_centrality": 3,
+          "conflict_style": "needs time to process first",
+          "substance_use": "420-friendly",
+          "chronotype": "night owl",
+          "routine_vs_spontaneity": 5,
+          "religion_importance": 1,
+          "politics_importance": 5
+        },
+        "interests": {
+          "top_hobbies": [
+            "illustration",
+            "houseplants",
+            "vintage shopping"
+          ],
+          "social_battery": 2,
+          "travel_frequency": "rarely travels",
+          "fitness_level": "not really into it",
+          "food_style": "comfort food loyalist",
+          "music_taste": "Dream pop and 80s new wave",
+          "media_taste": "Animated films, graphic novels"
+        },
+        "personality": {
+          "social_energy_scale": 2,
+          "planner_vs_spontaneous": 5,
+          "emotional_expressiveness": 4,
+          "humor_style": "observational",
+          "love_language": "quality time",
+          "recharge_style": "creative outlets",
+          "communication_style": "needs processing time"
+        }
+      },
+      "card_teaser": "Owns 40 plants. Will not apologize for it."
+    },
+    {
+      "id": "p08",
+      "name": "Devon Park",
+      "age": 33,
+      "gender": "man",
+      "seeking": [
+        "man"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "Bouldin Creek"
+      },
+      "self_description": "Corporate lawyer trying to unlearn workaholism one badly-played guitar chord at a time. Looking for someone who'll call him out on working too much and drag him to a show instead.",
+      "physical_description": {
+        "favorite_feature": "My jawline, if I'm honest \u2014 I work out mostly so I can say that with confidence.",
+        "style_and_vibe": "Polished and classic during the week, sneakers-and-hoodie on weekends.",
+        "build": "athletic, gym regular",
+        "height": "5 ft 9 in",
+        "hair": "Black, short and sharp",
+        "signature_detail": "Always has AirPods in, even when talking to you.",
+        "energy_others_notice": "big presence, loud laugh, hard to miss in a room"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term relationship",
+          "wants_kids": "yes",
+          "career_centrality": 5,
+          "conflict_style": "direct and immediate",
+          "substance_use": "social drinker",
+          "chronotype": "night owl",
+          "routine_vs_spontaneity": 3,
+          "religion_importance": 1,
+          "politics_importance": 4
+        },
+        "interests": {
+          "top_hobbies": [
+            "guitar",
+            "live music",
+            "weightlifting"
+          ],
+          "social_battery": 4,
+          "travel_frequency": "monthly if possible",
+          "fitness_level": "regular gym-goer",
+          "food_style": "foodie/loves fine dining",
+          "music_taste": "Everything, but mostly hip-hop and blues",
+          "media_taste": "Legal dramas he yells at, stand-up specials"
+        },
+        "personality": {
+          "social_energy_scale": 4,
+          "planner_vs_spontaneous": 3,
+          "emotional_expressiveness": 3,
+          "humor_style": "witty/quick",
+          "love_language": "quality time",
+          "recharge_style": "time with close friends",
+          "communication_style": "direct"
+        }
+      },
+      "card_teaser": "Objection: he's actually fun, I swear."
+    },
+    {
+      "id": "p09",
+      "name": "Elena Vasquez",
+      "age": 30,
+      "gender": "woman",
+      "seeking": [
+        "man"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "Travis Heights"
+      },
+      "self_description": "High school teacher who genuinely loves her job, which either makes her a saint or a masochist depending who you ask. Wants someone patient, warm, and up for spontaneous weekend trips during the school breaks she counts down to.",
+      "physical_description": {
+        "favorite_feature": "My hands \u2014 I talk with them constantly, my students mock me for it.",
+        "style_and_vibe": "Warm and put-together, bold color, statement earrings.",
+        "build": "curvy",
+        "height": "5 ft 5 in",
+        "hair": "Dark brown with natural curls she's finally stopped straightening",
+        "signature_detail": "Always wears her late abuela's earrings.",
+        "energy_others_notice": "warm and approachable, the person strangers tell their life story to"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term relationship",
+          "wants_kids": "yes",
+          "career_centrality": 4,
+          "conflict_style": "collaborative problem-solver",
+          "substance_use": "social drinker",
+          "chronotype": "early bird",
+          "routine_vs_spontaneity": 3,
+          "religion_importance": 3,
+          "politics_importance": 4
+        },
+        "interests": {
+          "top_hobbies": [
+            "salsa dancing",
+            "book club",
+            "traveling"
+          ],
+          "social_battery": 4,
+          "travel_frequency": "monthly if possible",
+          "fitness_level": "casually active",
+          "food_style": "adventurous eater",
+          "music_taste": "Latin pop and 2000s R&B",
+          "media_taste": "Rom-coms, telenovelas unapologetically"
+        },
+        "personality": {
+          "social_energy_scale": 4,
+          "planner_vs_spontaneous": 3,
+          "emotional_expressiveness": 5,
+          "humor_style": "silly/goofy",
+          "love_language": "words of affirmation",
+          "recharge_style": "time with close friends",
+          "communication_style": "very expressive"
+        }
+      },
+      "card_teaser": "Will teach you to dance badly, then well."
+    },
+    {
+      "id": "p10",
+      "name": "Sam O'Brien",
+      "age": 25,
+      "gender": "man",
+      "seeking": [
+        "woman"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "North Loop"
+      },
+      "self_description": "Junior software engineer, competitive board gamer, aggressively mediocre at rock climbing but shows up every week anyway. Looking for someone who takes games (and very little else) seriously.",
+      "physical_description": {
+        "favorite_feature": "My eyebrows, unfairly expressive for someone who claims to have a great poker face.",
+        "style_and_vibe": "Casual and comfortable, band tees and the same three hoodies on rotation.",
+        "build": "slim",
+        "height": "5 ft 8 in",
+        "hair": "Light brown, perpetually needs a haircut",
+        "signature_detail": "Wears mismatched socks on purpose, calls it a personality trait.",
+        "energy_others_notice": "easygoing, the friend who never makes things awkward"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term, open to short-term",
+          "wants_kids": "unsure",
+          "career_centrality": 3,
+          "conflict_style": "avoids conflict, works on it",
+          "substance_use": "social drinker",
+          "chronotype": "night owl",
+          "routine_vs_spontaneity": 3,
+          "religion_importance": 1,
+          "politics_importance": 3
+        },
+        "interests": {
+          "top_hobbies": [
+            "board games",
+            "rock climbing",
+            "video games"
+          ],
+          "social_battery": 3,
+          "travel_frequency": "rarely travels",
+          "fitness_level": "casually active",
+          "food_style": "comfort food loyalist",
+          "music_taste": "Video game soundtracks and indie rock",
+          "media_taste": "Fantasy novels, animated shows"
+        },
+        "personality": {
+          "social_energy_scale": 3,
+          "planner_vs_spontaneous": 3,
+          "emotional_expressiveness": 2,
+          "humor_style": "punny",
+          "love_language": "quality time",
+          "recharge_style": "alone time",
+          "communication_style": "gentle/diplomatic"
+        }
+      },
+      "card_teaser": "Will absolutely flip the board if he's losing. Kidding. Mostly."
+    },
+    {
+      "id": "p11",
+      "name": "Aisha Bello",
+      "age": 28,
+      "gender": "woman",
+      "seeking": [
+        "woman"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "East Austin"
+      },
+      "self_description": "Data analyst who spends her free time volunteering at a community garden and losing spectacularly at trivia night. Wants someone thoughtful, a little nerdy, and genuinely kind to strangers.",
+      "physical_description": {
+        "favorite_feature": "My smile \u2014 my dad always said I light up a room with it, and I've decided to believe him.",
+        "style_and_vibe": "Minimalist and clean, monochrome outfits, always well put-together.",
+        "build": "average, athletic",
+        "height": "5 ft 6 in",
+        "hair": "Black, natural, often in twists",
+        "signature_detail": "Always has dirt under her nails from the garden.",
+        "energy_others_notice": "quietly steady, the one who remembers everyone's birthday"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term relationship",
+          "wants_kids": "yes",
+          "career_centrality": 3,
+          "conflict_style": "collaborative problem-solver",
+          "substance_use": "non-drinker",
+          "chronotype": "early bird",
+          "routine_vs_spontaneity": 2,
+          "religion_importance": 3,
+          "politics_importance": 4
+        },
+        "interests": {
+          "top_hobbies": [
+            "gardening",
+            "trivia",
+            "pottery classes"
+          ],
+          "social_battery": 2,
+          "travel_frequency": "rarely travels",
+          "fitness_level": "casually active",
+          "food_style": "health-conscious",
+          "music_taste": "Neo-soul and acoustic covers",
+          "media_taste": "Quiz shows, nature documentaries"
+        },
+        "personality": {
+          "social_energy_scale": 2,
+          "planner_vs_spontaneous": 2,
+          "emotional_expressiveness": 3,
+          "humor_style": "dry/sarcastic",
+          "love_language": "acts of service",
+          "recharge_style": "alone time",
+          "communication_style": "direct"
+        }
+      },
+      "card_teaser": "Will lose trivia gracefully. Will not let it go."
+    },
+    {
+      "id": "p12",
+      "name": "Ryan Tanaka",
+      "age": 36,
+      "gender": "man",
+      "seeking": [
+        "woman"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "South Congress"
+      },
+      "self_description": "Physical therapist, marathon runner, recovering perfectionist. Looking for someone independent and warm who won't mind an alarm set for 5:30am on a Saturday.",
+      "physical_description": {
+        "favorite_feature": "My calves, from all the running \u2014 I've made peace with being that guy.",
+        "style_and_vibe": "Athletic and functional, but cleans up well when it counts.",
+        "build": "lean, athletic",
+        "height": "5 ft 10 in",
+        "hair": "Black, short",
+        "signature_detail": "Always wearing a running watch, even to dinner.",
+        "energy_others_notice": "calm and grounded, low-key competitive underneath it"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term relationship",
+          "wants_kids": "unsure",
+          "career_centrality": 4,
+          "conflict_style": "needs time to process first",
+          "substance_use": "non-drinker",
+          "chronotype": "early bird",
+          "routine_vs_spontaneity": 1,
+          "religion_importance": 2,
+          "politics_importance": 3
+        },
+        "interests": {
+          "top_hobbies": [
+            "marathon running",
+            "meal prepping",
+            "hiking"
+          ],
+          "social_battery": 2,
+          "travel_frequency": "few times a year",
+          "fitness_level": "highly active/athlete",
+          "food_style": "health-conscious",
+          "music_taste": "Electronic and running playlists, mostly",
+          "media_taste": "Sports docs, self-improvement podcasts"
+        },
+        "personality": {
+          "social_energy_scale": 2,
+          "planner_vs_spontaneous": 1,
+          "emotional_expressiveness": 2,
+          "humor_style": "dry/sarcastic",
+          "love_language": "acts of service",
+          "recharge_style": "physical activity",
+          "communication_style": "direct"
+        }
+      },
+      "card_teaser": "Has a spreadsheet for his spreadsheets."
+    },
+    {
+      "id": "p13",
+      "name": "Claire Dubois",
+      "age": 23,
+      "gender": "woman",
+      "seeking": [
+        "man"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "Hyde Park"
+      },
+      "self_description": "Recent grad working her first real job in publishing, still figuring out adulthood one grocery run at a time. Looking for someone patient with her chaos and up for cheap wine on a rooftop.",
+      "physical_description": {
+        "favorite_feature": "My eyes \u2014 they're a weird hazel-green that changes with what I'm wearing, or so I've been told.",
+        "style_and_vibe": "Trendy and playful, always something a little unexpected.",
+        "build": "petite",
+        "height": "5 ft 2 in",
+        "hair": "Light brown, shoulder-length with bangs",
+        "signature_detail": "Always has chipped nail polish because she can never sit still long enough to let it dry.",
+        "energy_others_notice": "bright and a little scattered, in a charming way"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "not sure yet, figuring it out",
+          "wants_kids": "unsure",
+          "career_centrality": 3,
+          "conflict_style": "avoids conflict, works on it",
+          "substance_use": "social drinker",
+          "chronotype": "night owl",
+          "routine_vs_spontaneity": 4,
+          "religion_importance": 1,
+          "politics_importance": 4
+        },
+        "interests": {
+          "top_hobbies": [
+            "reading",
+            "thrifting",
+            "rooftop bars"
+          ],
+          "social_battery": 4,
+          "travel_frequency": "rarely travels",
+          "fitness_level": "not really into it",
+          "food_style": "comfort food loyalist",
+          "music_taste": "Pop and whatever's trending on playlists",
+          "media_taste": "Reality TV, romance novels"
+        },
+        "personality": {
+          "social_energy_scale": 4,
+          "planner_vs_spontaneous": 4,
+          "emotional_expressiveness": 4,
+          "humor_style": "silly/goofy",
+          "love_language": "physical touch",
+          "recharge_style": "time with close friends",
+          "communication_style": "very expressive"
+        }
+      },
+      "card_teaser": "Reads two books a week and remembers none of the plots."
+    },
+    {
+      "id": "p14",
+      "name": "Malik Johnson",
+      "age": 32,
+      "gender": "man",
+      "seeking": [
+        "man"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "Mueller"
+      },
+      "self_description": "High school basketball coach with strong opinions about zone defense and even stronger opinions about brunch. Looking for someone driven, funny, and willing to sit courtside on a Friday night.",
+      "physical_description": {
+        "favorite_feature": "My hands \u2014 good for both basketball and cooking, which covers most of what I love.",
+        "style_and_vibe": "Sporty but sharp, always in good sneakers.",
+        "build": "tall, athletic",
+        "height": "6 ft 3 in",
+        "hair": "Black, short fade",
+        "signature_detail": "Always has a whistle around his neck, even off the clock, out of habit.",
+        "energy_others_notice": "big presence, natural leader, warm underneath the bravado"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term relationship",
+          "wants_kids": "yes",
+          "career_centrality": 4,
+          "conflict_style": "direct and immediate",
+          "substance_use": "social drinker",
+          "chronotype": "early bird",
+          "routine_vs_spontaneity": 2,
+          "religion_importance": 3,
+          "politics_importance": 3
+        },
+        "interests": {
+          "top_hobbies": [
+            "basketball",
+            "brunch",
+            "sneaker collecting"
+          ],
+          "social_battery": 4,
+          "travel_frequency": "few times a year",
+          "fitness_level": "highly active/athlete",
+          "food_style": "foodie/loves fine dining",
+          "music_taste": "Hip-hop and R&B",
+          "media_taste": "Sports everything, comedy specials"
+        },
+        "personality": {
+          "social_energy_scale": 4,
+          "planner_vs_spontaneous": 2,
+          "emotional_expressiveness": 3,
+          "humor_style": "witty/quick",
+          "love_language": "quality time",
+          "recharge_style": "time with close friends",
+          "communication_style": "direct"
+        }
+      },
+      "card_teaser": "Will coach you through your own life decisions, unsolicited."
+    },
+    {
+      "id": "p15",
+      "name": "Ingrid Larsen",
+      "age": 41,
+      "gender": "woman",
+      "seeking": [
+        "man"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "Zilker"
+      },
+      "self_description": "Architect turned urban farmer after a mid-career pivot she has zero regrets about. Looking for someone secure, curious, and unbothered by the fact that her hands are permanently a little dirty now.",
+      "physical_description": {
+        "favorite_feature": "My hands, weathered from the work, and I actually love that about them now.",
+        "style_and_vibe": "Practical and grounded, linen and denim, barely any jewelry.",
+        "build": "athletic, strong",
+        "height": "5 ft 7 in",
+        "hair": "Silver-streaked brown, long and often braided",
+        "signature_detail": "Wears the same wide-brimmed sun hat everywhere.",
+        "energy_others_notice": "grounded and calm, the person people go to for advice"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term relationship",
+          "wants_kids": "already have kids, done",
+          "career_centrality": 3,
+          "conflict_style": "collaborative problem-solver",
+          "substance_use": "social drinker",
+          "chronotype": "early bird",
+          "routine_vs_spontaneity": 3,
+          "religion_importance": 2,
+          "politics_importance": 4
+        },
+        "interests": {
+          "top_hobbies": [
+            "urban farming",
+            "beekeeping",
+            "reading"
+          ],
+          "social_battery": 2,
+          "travel_frequency": "rarely travels",
+          "fitness_level": "casually active",
+          "food_style": "health-conscious",
+          "music_taste": "Folk and classical",
+          "media_taste": "Nature documentaries, literary fiction"
+        },
+        "personality": {
+          "social_energy_scale": 2,
+          "planner_vs_spontaneous": 3,
+          "emotional_expressiveness": 3,
+          "humor_style": "dry/sarcastic",
+          "love_language": "acts of service",
+          "recharge_style": "alone time",
+          "communication_style": "direct"
+        }
+      },
+      "card_teaser": "Has bees. Will talk about the bees."
+    },
+    {
+      "id": "p16",
+      "name": "Tobias Kim",
+      "age": 29,
+      "gender": "man",
+      "seeking": [
+        "woman"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "Rainey Street"
+      },
+      "self_description": "Bartender turned mixology instructor, plays bass in a band that's played approximately four real shows. Looking for someone who's up for late nights, doesn't mind his weird hours, and has genuinely good taste in music.",
+      "physical_description": {
+        "favorite_feature": "My arms, from carrying too many kegs \u2014 silver lining of the job.",
+        "style_and_vibe": "Effortlessly cool, band tees under good jackets.",
+        "build": "lean, muscular",
+        "height": "5 ft 11 in",
+        "hair": "Black, longer and often tied back",
+        "signature_detail": "Always has a guitar pick somewhere in his pocket.",
+        "energy_others_notice": "chill and a little magnetic, the guy everyone ends up talking to at the bar"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term, open to short-term",
+          "wants_kids": "unsure",
+          "career_centrality": 2,
+          "conflict_style": "needs time to process first",
+          "substance_use": "regular drinker",
+          "chronotype": "night owl",
+          "routine_vs_spontaneity": 4,
+          "religion_importance": 1,
+          "politics_importance": 3
+        },
+        "interests": {
+          "top_hobbies": [
+            "playing bass",
+            "mixology",
+            "vinyl collecting"
+          ],
+          "social_battery": 4,
+          "travel_frequency": "rarely travels",
+          "fitness_level": "casually active",
+          "food_style": "adventurous eater",
+          "music_taste": "Everything on vinyl, mostly funk and soul",
+          "media_taste": "Music documentaries, late-night talk shows"
+        },
+        "personality": {
+          "social_energy_scale": 4,
+          "planner_vs_spontaneous": 4,
+          "emotional_expressiveness": 3,
+          "humor_style": "witty/quick",
+          "love_language": "quality time",
+          "recharge_style": "creative outlets",
+          "communication_style": "gentle/diplomatic"
+        }
+      },
+      "card_teaser": "Will make you a drink you didn't know you wanted."
+    },
+    {
+      "id": "p17",
+      "name": "Freya Nilsson",
+      "age": 26,
+      "gender": "nonbinary",
+      "seeking": [
+        "woman"
+      ],
+      "location": {
+        "city": "Austin, TX",
+        "neighborhood": "Clarksville"
+      },
+      "self_description": "Software developer by trade, aerial silks student by obsession. Looking for someone confident, kind, and unbothered by a schedule that occasionally involves hanging upside down from fabric three nights a week.",
+      "physical_description": {
+        "favorite_feature": "My shoulders \u2014 aerial work will do that, and I'm finally proud of it.",
+        "style_and_vibe": "Sporty and androgynous, mostly athleisure with the occasional bold statement piece.",
+        "build": "athletic, strong",
+        "height": "5 ft 6 in",
+        "hair": "Copper red, short and choppy",
+        "signature_detail": "Almost always has a bruise from silks class and zero regrets about it.",
+        "energy_others_notice": "quietly intense, warms up fast once comfortable"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term relationship",
+          "wants_kids": "unsure",
+          "career_centrality": 3,
+          "conflict_style": "direct and immediate",
+          "substance_use": "social drinker",
+          "chronotype": "night owl",
+          "routine_vs_spontaneity": 3,
+          "religion_importance": 1,
+          "politics_importance": 5
+        },
+        "interests": {
+          "top_hobbies": [
+            "aerial silks",
+            "coding side projects",
+            "climbing"
+          ],
+          "social_battery": 3,
+          "travel_frequency": "few times a year",
+          "fitness_level": "highly active/athlete",
+          "food_style": "adventurous eater",
+          "music_taste": "Electronic and hyperpop",
+          "media_taste": "Sci-fi, circus and dance performance videos"
+        },
+        "personality": {
+          "social_energy_scale": 3,
+          "planner_vs_spontaneous": 3,
+          "emotional_expressiveness": 3,
+          "humor_style": "observational",
+          "love_language": "physical touch",
+          "recharge_style": "physical activity",
+          "communication_style": "direct"
+        }
+      },
+      "card_teaser": "Will casually mention she can do a full split. She can."
+    },
+    {
+      "id": "p18",
+      "name": "Diego Ramirez",
+      "age": 35,
+      "gender": "man",
+      "seeking": [
+        "man"
+      ],
+      "location": {
+        "city": "Dallas, TX",
+        "neighborhood": "Deep Ellum"
+      },
+      "self_description": "Graphic designer and part-time DJ, spends most weekends either at a gallery opening or behind a mixer. Looking for someone creative, low-drama, and genuinely interested in Dallas' art scene.",
+      "physical_description": {
+        "favorite_feature": "My hands \u2014 covered in ink stains half the time from sketching.",
+        "style_and_vibe": "Bold and fashion-forward, always in something a little unexpected.",
+        "build": "slim",
+        "height": "5 ft 9 in",
+        "hair": "Black, styled with an undercut",
+        "signature_detail": "Rotates through statement glasses like other people rotate outfits.",
+        "energy_others_notice": "big presence, magnetic in a room, quieter one-on-one"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term, open to short-term",
+          "wants_kids": "no",
+          "career_centrality": 4,
+          "conflict_style": "direct and immediate",
+          "substance_use": "social drinker",
+          "chronotype": "night owl",
+          "routine_vs_spontaneity": 4,
+          "religion_importance": 1,
+          "politics_importance": 4
+        },
+        "interests": {
+          "top_hobbies": [
+            "DJing",
+            "gallery hopping",
+            "graphic design side projects"
+          ],
+          "social_battery": 4,
+          "travel_frequency": "monthly if possible",
+          "fitness_level": "casually active",
+          "food_style": "adventurous eater",
+          "music_taste": "House and disco, obviously",
+          "media_taste": "Art documentaries, fashion editorials"
+        },
+        "personality": {
+          "social_energy_scale": 4,
+          "planner_vs_spontaneous": 4,
+          "emotional_expressiveness": 3,
+          "humor_style": "witty/quick",
+          "love_language": "quality time",
+          "recharge_style": "creative outlets",
+          "communication_style": "very expressive"
+        }
+      },
+      "card_teaser": "Will DJ your birthday party whether you ask or not."
+    },
+    {
+      "id": "p19",
+      "name": "Hannah Park",
+      "age": 27,
+      "gender": "woman",
+      "seeking": [
+        "man"
+      ],
+      "location": {
+        "city": "Dallas, TX",
+        "neighborhood": "Bishop Arts District"
+      },
+      "self_description": "Speech therapist who spends her weekends restoring vintage furniture she finds on the curb. Looking for someone genuine, a little handy, and up for a Saturday spent at estate sales.",
+      "physical_description": {
+        "favorite_feature": "My nose \u2014 a genuine Roman nose, family trait, three generations running.",
+        "style_and_vibe": "Vintage-inspired, always in something with a story behind it.",
+        "build": "average",
+        "height": "5 ft 4 in",
+        "hair": "Dark brown, in soft waves",
+        "signature_detail": "Always smells faintly of wood stain from her latest project.",
+        "energy_others_notice": "warm and understated, grows on you fast"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term relationship",
+          "wants_kids": "yes",
+          "career_centrality": 3,
+          "conflict_style": "collaborative problem-solver",
+          "substance_use": "social drinker",
+          "chronotype": "early bird",
+          "routine_vs_spontaneity": 3,
+          "religion_importance": 3,
+          "politics_importance": 3
+        },
+        "interests": {
+          "top_hobbies": [
+            "furniture restoration",
+            "estate sale hunting",
+            "baking"
+          ],
+          "social_battery": 3,
+          "travel_frequency": "rarely travels",
+          "fitness_level": "casually active",
+          "food_style": "comfort food loyalist",
+          "music_taste": "Indie folk and oldies",
+          "media_taste": "Home renovation shows, period dramas"
+        },
+        "personality": {
+          "social_energy_scale": 3,
+          "planner_vs_spontaneous": 2,
+          "emotional_expressiveness": 3,
+          "humor_style": "dry/sarcastic",
+          "love_language": "acts of service",
+          "recharge_style": "alone time",
+          "communication_style": "gentle/diplomatic"
+        }
+      },
+      "card_teaser": "Owns more sandpaper grits than is reasonable."
+    },
+    {
+      "id": "p20",
+      "name": "Owen Fitzgerald",
+      "age": 30,
+      "gender": "man",
+      "seeking": [
+        "woman"
+      ],
+      "location": {
+        "city": "Dallas, TX",
+        "neighborhood": "Uptown"
+      },
+      "self_description": "Finance guy trying to prove he's more interesting than his job title. Actually a decent home cook and a serious fantasy football commissioner. Looking for someone sharp, funny, and not put off by a slightly too-competitive group chat.",
+      "physical_description": {
+        "favorite_feature": "My smile, according to my mom's incessant reminding me before every family photo.",
+        "style_and_vibe": "Clean and classic, quarter-zips and good sneakers.",
+        "build": "athletic",
+        "height": "6 ft 0 in",
+        "hair": "Brown, short and neat",
+        "signature_detail": "Always has his fantasy football app open, even at dinner.",
+        "energy_others_notice": "confident and a little competitive, warms up once he's comfortable"
+      },
+      "questionnaire": {
+        "values_lifestyle": {
+          "relationship_intent": "long-term relationship",
+          "wants_kids": "yes",
+          "career_centrality": 4,
+          "conflict_style": "direct and immediate",
+          "substance_use": "social drinker",
+          "chronotype": "early bird",
+          "routine_vs_spontaneity": 2,
+          "religion_importance": 2,
+          "politics_importance": 3
+        },
+        "interests": {
+          "top_hobbies": [
+            "fantasy football",
+            "cooking",
+            "golf"
+          ],
+          "social_battery": 4,
+          "travel_frequency": "few times a year",
+          "fitness_level": "regular gym-goer",
+          "food_style": "foodie/loves fine dining",
+          "music_taste": "Classic rock and country",
+          "media_taste": "Sports talk shows, finance podcasts"
+        },
+        "personality": {
+          "social_energy_scale": 4,
+          "planner_vs_spontaneous": 2,
+          "emotional_expressiveness": 2,
+          "humor_style": "witty/quick",
+          "love_language": "quality time",
+          "recharge_style": "time with close friends",
+          "communication_style": "direct"
+        }
+      },
+      "card_teaser": "Will trade you a player for a second date. Kidding. Mostly."
+    }
+  ]
+}
