@@ -1,12 +1,16 @@
 {
   "expo": {
-    "name": "Blind Date",
+    "name": "Essense",
     "slug": "blind-date-app",
-    "scheme": "blinddate",
+    "scheme": "essense",
     "version": "0.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#F7F3ED",
+      "resizeMode": "contain"
+    },
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.blinddate.app"

@@ -9,31 +9,64 @@ import type { QuestionnaireAnswers } from "@/lib/types";
 
 type AnswerMap = Record<string, unknown>;
 
+// Custom (write-your-own) answers live under `<key>_custom` with the
+// canonical key left unset, so scoring treats the question as skipped for
+// this user -- see the note in lib/questions.ts.
+const customKey = (key: string) => `${key}_custom`;
+
 export default function Questionnaire() {
   const { session } = useAuth();
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<AnswerMap>({});
   const [submitting, setSubmitting] = useState(false);
   const [textDraft, setTextDraft] = useState("");
+  const [customDraft, setCustomDraft] = useState("");
+  const [customOpen, setCustomOpen] = useState(false);
 
   const question = QUESTIONS[index];
   const isLast = index === QUESTIONS.length - 1;
   const currentAnswer = answers[question.key];
 
   function setAnswer(value: unknown) {
-    setAnswers((prev) => ({ ...prev, [question.key]: value }));
+    setAnswers((prev) => {
+      const next = { ...prev, [question.key]: value };
+      delete next[customKey(question.key)];
+      return next;
+    });
+    setCustomOpen(false);
+    setCustomDraft("");
+  }
+
+  function commitDrafts(): AnswerMap {
+    // Fold whatever is typed into `answers` before navigating/saving.
+    const next = { ...answers };
+    if (question.type === "text" && textDraft.trim()) {
+      next[question.key] = textDraft.trim();
+    }
+    if (question.allowCustom && customOpen && customDraft.trim()) {
+      next[customKey(question.key)] = customDraft.trim();
+      delete next[question.key];
+    }
+    setAnswers(next);
+    return next;
+  }
+
+  function navigate(newIndex: number, latest: AnswerMap) {
+    const q = QUESTIONS[newIndex];
+    setTextDraft(String(latest[q.key] ?? ""));
+    const storedCustom = latest[customKey(q.key)];
+    setCustomDraft(String(storedCustom ?? ""));
+    setCustomOpen(Boolean(storedCustom));
+    setIndex(newIndex);
   }
 
   async function goNext() {
-    if (question.type === "text" && textDraft.trim()) {
-      setAnswer(textDraft.trim());
-    }
+    const latest = commitDrafts();
     if (!isLast) {
-      setTextDraft(String(answers[QUESTIONS[index + 1].key] ?? ""));
-      setIndex(index + 1);
+      navigate(index + 1, latest);
       return;
     }
-    await finish();
+    await finish(latest);
   }
 
   function goBack() {
@@ -41,25 +74,22 @@ export default function Questionnaire() {
       router.back();
       return;
     }
-    setTextDraft(String(answers[QUESTIONS[index - 1].key] ?? ""));
-    setIndex(index - 1);
+    navigate(index - 1, answers);
   }
 
   function skip() {
-    setAnswers((prev) => {
-      const next = { ...prev };
-      delete next[question.key];
-      return next;
-    });
+    const next = { ...answers };
+    delete next[question.key];
+    delete next[customKey(question.key)];
+    setAnswers(next);
     if (!isLast) {
-      setTextDraft(String(answers[QUESTIONS[index + 1].key] ?? ""));
-      setIndex(index + 1);
+      navigate(index + 1, next);
     } else {
-      finish();
+      finish(next);
     }
   }
 
-  async function finish() {
+  async function finish(latest: AnswerMap) {
     if (!session) return;
 
     const grouped: QuestionnaireAnswers = {
@@ -67,10 +97,15 @@ export default function Questionnaire() {
       interests: {} as QuestionnaireAnswers["interests"],
       personality: {} as QuestionnaireAnswers["personality"],
     };
+    // Custom answers share the base question's category.
+    const categoryOf: Record<string, QuestionnaireAnswers[keyof QuestionnaireAnswers]> = {};
     for (const q of QUESTIONS) {
-      const value = answers[q.key];
-      if (value === undefined) continue;
-      (grouped[q.category] as unknown as AnswerMap)[q.key] = value;
+      categoryOf[q.key] = grouped[q.category];
+      categoryOf[customKey(q.key)] = grouped[q.category];
+    }
+    for (const [key, value] of Object.entries(latest)) {
+      if (value === undefined || !(key in categoryOf)) continue;
+      (categoryOf[key] as unknown as AnswerMap)[key] = value;
     }
 
     setSubmitting(true);
@@ -86,6 +121,7 @@ export default function Questionnaire() {
 
   function canAdvance() {
     if (question.skippable) return true;
+    if (question.allowCustom && customOpen) return customDraft.trim().length > 0;
     if (question.type === "text") return textDraft.trim().length > 0;
     if (question.type === "multi_choice") return Array.isArray(currentAnswer) && currentAnswer.length > 0;
     return currentAnswer !== undefined && currentAnswer !== null;
@@ -106,8 +142,8 @@ export default function Questionnaire() {
         <View style={styles.scaleRow}>
           {question.scaleLabels && (
             <View style={styles.scaleLabels}>
-              <Text style={styles.scaleLabelText}>{question.scaleLabels[0]}</Text>
-              <Text style={styles.scaleLabelText}>{question.scaleLabels[1]}</Text>
+              <Text style={[styles.scaleLabelText, styles.scaleLabelLeft]}>{question.scaleLabels[0]}</Text>
+              <Text style={[styles.scaleLabelText, styles.scaleLabelRight]}>{question.scaleLabels[1]}</Text>
             </View>
           )}
           <View style={styles.scaleButtons}>
@@ -123,32 +159,68 @@ export default function Questionnaire() {
       {question.type === "single_choice" && (
         <View style={styles.optionList}>
           {question.options?.map((opt) => (
-            <Pressable key={opt} onPress={() => setAnswer(opt)} style={[styles.option, currentAnswer === opt && styles.optionSelected]}>
-              <Text style={[styles.optionText, currentAnswer === opt && styles.optionTextSelected]}>{opt}</Text>
+            <Pressable
+              key={opt.value}
+              onPress={() => setAnswer(opt.value)}
+              style={[styles.option, currentAnswer === opt.value && styles.optionSelected]}
+            >
+              <Text style={[styles.optionText, currentAnswer === opt.value && styles.optionTextSelected]}>{opt.label}</Text>
             </Pressable>
           ))}
+
+          {question.allowCustom && (
+            <Pressable
+              onPress={() => {
+                setCustomOpen((open) => !open);
+                if (!customOpen) {
+                  setAnswers((prev) => {
+                    const next = { ...prev };
+                    delete next[question.key];
+                    return next;
+                  });
+                }
+              }}
+              style={[styles.option, styles.customToggle, customOpen && styles.optionSelected]}
+            >
+              <Text style={[styles.optionText, customOpen && styles.optionTextSelected]}>
+                None of these — I'll say it my way
+              </Text>
+            </Pressable>
+          )}
+
+          {question.allowCustom && customOpen && (
+            <TextInput
+              style={styles.customInput}
+              placeholder="Your answer, your words..."
+              placeholderTextColor={theme.colors.textMuted}
+              multiline
+              autoFocus
+              value={customDraft}
+              onChangeText={setCustomDraft}
+            />
+          )}
         </View>
       )}
 
       {question.type === "multi_choice" && (
         <View style={styles.chipWrap}>
           {question.options?.map((opt) => {
-            const selected = Array.isArray(currentAnswer) && currentAnswer.includes(opt);
+            const selected = Array.isArray(currentAnswer) && currentAnswer.includes(opt.value);
             return (
               <Pressable
-                key={opt}
+                key={opt.value}
                 onPress={() => {
                   const current = Array.isArray(currentAnswer) ? (currentAnswer as string[]) : [];
                   const max = question.maxSelect ?? 99;
                   if (selected) {
-                    setAnswer(current.filter((x) => x !== opt));
+                    setAnswer(current.filter((x) => x !== opt.value));
                   } else if (current.length < max) {
-                    setAnswer([...current, opt]);
+                    setAnswer([...current, opt.value]);
                   }
                 }}
                 style={[styles.chip, selected && styles.chipSelected]}
               >
-                <Text style={[styles.chipText, selected && styles.chipTextSelected]}>{opt}</Text>
+                <Text style={[styles.chipText, selected && styles.chipTextSelected]}>{opt.label}</Text>
               </Pressable>
             );
           })}
@@ -195,8 +267,10 @@ const styles = StyleSheet.create({
   progressFill: { height: 4, backgroundColor: theme.colors.accent, borderRadius: 2 },
   prompt: { fontSize: 22, color: theme.colors.textPrimary, marginBottom: 28, lineHeight: 30 },
   scaleRow: { marginBottom: 20 },
-  scaleLabels: { flexDirection: "row", justifyContent: "space-between", marginBottom: 12 },
-  scaleLabelText: { fontSize: 12, color: theme.colors.textMuted },
+  scaleLabels: { flexDirection: "row", justifyContent: "space-between", gap: 24, marginBottom: 12 },
+  scaleLabelText: { fontSize: 12, color: theme.colors.textMuted, flexShrink: 1 },
+  scaleLabelLeft: { textAlign: "left" },
+  scaleLabelRight: { textAlign: "right" },
   scaleButtons: { flexDirection: "row", justifyContent: "space-between" },
   scaleDot: {
     width: 52,
@@ -214,8 +288,20 @@ const styles = StyleSheet.create({
   optionList: { gap: 10, marginBottom: 20 },
   option: { borderWidth: 1, borderColor: theme.colors.border, borderRadius: theme.radius.control, paddingVertical: 14, paddingHorizontal: 16, backgroundColor: "#fff" },
   optionSelected: { backgroundColor: theme.colors.accent, borderColor: theme.colors.accent },
-  optionText: { fontSize: 15, color: theme.colors.textPrimary, textTransform: "capitalize" },
+  optionText: { fontSize: 15, color: theme.colors.textPrimary, lineHeight: 21 },
   optionTextSelected: { color: "#fff" },
+  customToggle: { borderStyle: "dashed" },
+  customInput: {
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: theme.colors.accent,
+    borderRadius: theme.radius.control,
+    padding: 14,
+    fontSize: 15,
+    color: theme.colors.textPrimary,
+    minHeight: 80,
+    textAlignVertical: "top",
+  },
   chipWrap: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 20 },
   chip: { borderWidth: 1, borderColor: theme.colors.border, borderRadius: theme.radius.pill, paddingHorizontal: 16, paddingVertical: 9, backgroundColor: "#fff" },
   chipSelected: { backgroundColor: theme.colors.accent, borderColor: theme.colors.accent },

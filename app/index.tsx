@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Redirect } from "expo-router";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import { useAuth } from "@/lib/AuthProvider";
 import { supabase } from "@/lib/supabase";
 import { theme } from "@/lib/theme";
+import { BRAND } from "@/lib/brand";
 
 // Entry point: routes to sign-in, onboarding, or the swipe deck depending
 // on auth + onboarding_complete state. No UI of its own.
@@ -38,13 +39,14 @@ export default function Index() {
 
   if (loading || checkingProfile) {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: theme.colors.bg }}>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: theme.colors.bg, gap: 16 }}>
+        <Text style={{ fontSize: 34, color: theme.colors.accent, fontWeight: "700", letterSpacing: -1 }}>{BRAND.name}</Text>
         <ActivityIndicator color={theme.colors.accent} />
       </View>
     );
   }
 
-  if (!session) return <Redirect href="/(auth)/sign-in" />;
+  if (!session) return <Redirect href="/(auth)/welcome" />;
   if (!profileExists) return <Redirect href="/(onboarding)/basic-info" />;
   if (!onboardingComplete) return <Redirect href="/(onboarding)/questionnaire" />;
   return <Redirect href="/(main)/swipe" />;

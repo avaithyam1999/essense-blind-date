@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/AuthProvider";
 import { theme } from "@/lib/theme";
+import { BRAND } from "@/lib/brand";
 import { SwipeCard } from "@/components/SwipeCard";
 import { MatchModal } from "@/components/MatchModal";
 import type { PhysicalDescription, QueueCandidate } from "@/lib/types";
@@ -75,7 +76,7 @@ export default function Swipe() {
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       <View style={styles.topbar}>
-        <Text style={styles.brand}>Blind Date</Text>
+        <Text style={styles.brand}>{BRAND.name}</Text>
         <View style={styles.matchCounter}>
           <Text style={styles.matchCounterText}>{matchesToday} match{matchesToday === 1 ? "" : "es"} today</Text>
         </View>

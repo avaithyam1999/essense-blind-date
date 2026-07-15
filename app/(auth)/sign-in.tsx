@@ -3,6 +3,7 @@ import { View, Text, TextInput, Pressable, StyleSheet, Alert, KeyboardAvoidingVi
 import { Link, router } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { theme } from "@/lib/theme";
+import { BRAND } from "@/lib/brand";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -22,7 +23,7 @@ export default function SignIn() {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-      <Text style={styles.eyebrow}>Blind Date</Text>
+      <Text style={styles.eyebrow}>{BRAND.name}</Text>
       <Text style={styles.title}>Welcome back</Text>
 
       <TextInput

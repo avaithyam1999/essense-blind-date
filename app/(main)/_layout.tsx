@@ -1,10 +1,6 @@
 import { Tabs } from "expo-router";
-import { Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { theme } from "@/lib/theme";
-
-function TabIcon({ symbol, focused }: { symbol: string; focused: boolean }) {
-  return <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.4 }}>{symbol}</Text>;
-}
 
 export default function MainLayout() {
   return (
@@ -14,11 +10,36 @@ export default function MainLayout() {
         tabBarActiveTintColor: theme.colors.accent,
         tabBarInactiveTintColor: theme.colors.textMuted,
         tabBarStyle: { backgroundColor: "#fff", borderTopColor: theme.colors.border },
+        tabBarLabelStyle: { fontSize: 11, fontWeight: "600" },
       }}
     >
-      <Tabs.Screen name="swipe" options={{ title: "Discover", tabBarIcon: ({ focused }) => <TabIcon symbol="⟡" focused={focused} /> }} />
-      <Tabs.Screen name="matches" options={{ title: "Matches", tabBarIcon: ({ focused }) => <TabIcon symbol="♡" focused={focused} /> }} />
-      <Tabs.Screen name="profile" options={{ title: "Profile", tabBarIcon: ({ focused }) => <TabIcon symbol="◐" focused={focused} /> }} />
+      <Tabs.Screen
+        name="swipe"
+        options={{
+          title: "Discover",
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons name={focused ? "albums" : "albums-outline"} color={color} size={size} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="matches"
+        options={{
+          title: "Matches",
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons name={focused ? "heart" : "heart-outline"} color={color} size={size} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons name={focused ? "person" : "person-outline"} color={color} size={size} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
