@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { View, Text, Pressable, StyleSheet, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { router, useFocusEffect } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/AuthProvider";
 import { theme } from "@/lib/theme";
 import { BRAND } from "@/lib/brand";
 import { SwipeCard } from "@/components/SwipeCard";
 import { MatchModal } from "@/components/MatchModal";
+import { consumeQueueStale, fetchTodaysPrompt } from "@/lib/dailyQuestion";
 import type { PhysicalDescription, QueueCandidate } from "@/lib/types";
 
 export default function Swipe() {
@@ -16,6 +18,7 @@ export default function Swipe() {
   const [loading, setLoading] = useState(true);
   const [matchesToday, setMatchesToday] = useState(0);
   const [matchModal, setMatchModal] = useState<{ name: string; look: PhysicalDescription } | null>(null);
+  const [dailyWaiting, setDailyWaiting] = useState(false);
 
   const loadQueue = useCallback(async () => {
     if (!session) return;
@@ -34,6 +37,29 @@ export default function Swipe() {
   useEffect(() => {
     loadQueue();
   }, [loadQueue]);
+
+  // Today's AI question: show the banner while it's unanswered. Fails soft
+  // (no banner) until the backend pieces are deployed.
+  useEffect(() => {
+    if (!session) return;
+    let cancelled = false;
+    fetchTodaysPrompt()
+      .then((p) => !cancelled && setDailyWaiting(Boolean(p && !p.answered_at)))
+      .catch(() => !cancelled && setDailyWaiting(false));
+    return () => {
+      cancelled = true;
+    };
+  }, [session]);
+
+  // Rebuild the queue with the sharper scores after a daily answer.
+  useFocusEffect(
+    useCallback(() => {
+      if (consumeQueueStale()) {
+        setDailyWaiting(false);
+        loadQueue();
+      }
+    }, [loadQueue])
+  );
 
   async function handleSwiped(direction: "like" | "pass") {
     const candidate = candidates[index];
@@ -81,6 +107,13 @@ export default function Swipe() {
           <Text style={styles.matchCounterText}>{matchesToday} match{matchesToday === 1 ? "" : "es"} today</Text>
         </View>
       </View>
+
+      {dailyWaiting && (
+        <Pressable style={styles.dailyBanner} onPress={() => router.push("/(main)/daily")}>
+          <Text style={styles.dailyBannerText}>✳ The matchmaker has a question for you today</Text>
+          <Text style={styles.dailyBannerArrow}>→</Text>
+        </Pressable>
+      )}
 
       <View style={styles.deck}>
         {loading ? (
@@ -137,6 +170,18 @@ const styles = StyleSheet.create({
   brand: { fontSize: 18, color: theme.colors.textPrimary },
   matchCounter: { backgroundColor: theme.colors.accentTint, borderRadius: theme.radius.pill, paddingHorizontal: 12, paddingVertical: 5 },
   matchCounterText: { color: theme.colors.accent, fontSize: 12, fontWeight: "600" },
+  dailyBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: theme.colors.accentTint,
+    borderRadius: theme.radius.control,
+    paddingHorizontal: 14,
+    paddingVertical: 11,
+    marginTop: 4,
+  },
+  dailyBannerText: { color: theme.colors.accent, fontSize: 13, fontWeight: "600", flexShrink: 1 },
+  dailyBannerArrow: { color: theme.colors.accent, fontSize: 15, fontWeight: "700" },
   deck: { flex: 1, position: "relative", marginTop: 8 },
   centered: { flex: 1, alignItems: "center", justifyContent: "center", paddingHorizontal: 20 },
   emptyTitle: { fontSize: 20, color: theme.colors.textPrimary, marginBottom: 8, textAlign: "center" },

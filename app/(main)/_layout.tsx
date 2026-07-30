@@ -22,6 +22,8 @@ export default function MainLayout() {
           ),
         }}
       />
+      {/* Daily question is pushed from the swipe banner, not a tab. */}
+      <Tabs.Screen name="daily" options={{ href: null }} />
       <Tabs.Screen
         name="matches"
         options={{

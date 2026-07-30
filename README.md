@@ -50,6 +50,20 @@ node scripts/seed.js
 
 Get the service role key from Project Settings → API (**never** put this in the app itself — it bypasses row-level security). All seeded accounts share the password `seed-password-123!`. Sign in as one of them (e.g. `p01@seed.blinddate.local`) to see the rest of the seeded pool in your queue.
 
+### Daily AI questions (optional, needs an Anthropic API key)
+
+The matchmaker can ask each user one fresh, AI-personalized question per day. The copy is unique per user, but every question maps to a fixed trait schema (`trait_bank`), so answers feed `compute_compatibility()` with no scoring changes — the queue simply gets sharper as people answer.
+
+1. In the SQL Editor, run `supabase/daily-questions.sql` (after `schema.sql`). This creates the trait bank, the per-user `daily_prompts` table, and the `answer_daily_prompt()` RPC — and registers the new traits with the scoring engine.
+2. Deploy the generator function and set your Anthropic key ([console.anthropic.com](https://console.anthropic.com)):
+
+```
+supabase functions deploy daily-question
+supabase secrets set ANTHROPIC_API_KEY=sk-ant-...
+```
+
+The app calls the function lazily — the first time a user opens the swipe screen each day, their question is generated (personalized from their own profile) and a banner appears. Without the deployed function the app fails soft: no banner, nothing breaks. If generation fails (no key, model error, invalid output), the user still gets the trait's default hand-written phrasing.
+
 ## How the pieces map to the design decisions
 
 - `lib/questions.ts` — the ~28-question onboarding bank (values/lifestyle, interests, personality), with skippable flavor questions.
