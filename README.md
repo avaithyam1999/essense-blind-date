@@ -86,4 +86,4 @@ This is a functional skeleton, not a finished product. Known gaps, roughly in th
 - **Identity verification / anti-catfishing** was flagged as an open question in the concept phase and still is.
 - **IRL safety features** (check-ins, SOS, mandatory public venues) were explicitly deferred in the concept doc — worth revisiting before any real users meet up through this.
 - The SQL `compute_compatibility()` doesn't yet implement the "adjacent answer" partial-credit table that `lib/compatibility.ts` has (see the comment in schema.sql) — minor scoring divergence between the two.
-- This hasn't been run against a live Supabase instance or a real device/simulator yet — I don't have a Postgres environment or an iOS/Android runtime available where I built this, so treat first-run debugging as expected, especially around RLS policies and the RPC function signatures.
+- This hasn't been run against a live Supabase instance or a real device/simulator yet. Expect first-run debugging, especially around RLS policies and the RPC function signatures.
