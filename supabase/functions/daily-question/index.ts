@@ -1,14 +1,14 @@
 // daily-question edge function: returns (generating if needed) the calling
 // user's personalized question of the day.
 //
-// The question copy is unique per user -- Claude writes a scenario shaped by
+// The question copy is unique per user -- the LLM writes a scenario shaped by
 // the user's own profile -- but the ANSWER SCHEMA is the fixed canonical one
 // from trait_bank, so answers stay comparable across users and feed
 // compute_compatibility() untouched (see supabase/daily-questions.sql).
 //
 // Idempotent per (user, day): first call of the day generates and inserts;
 // later calls (and concurrent races, via the unique constraint) return the
-// existing row. If the Anthropic call fails or returns something that
+// existing row. If the LLM API call fails or returns something that
 // doesn't validate, the trait's default phrasing from trait_bank is used --
 // the user always gets a question, just not a personalized one.
 //
