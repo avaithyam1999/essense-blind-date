@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Animated, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
+import { supabase } from "@/lib/supabase";
 import { theme } from "@/lib/theme";
 import { BRAND } from "@/lib/brand";
 import {
@@ -11,7 +12,18 @@ import {
   type DailyPrompt,
 } from "@/lib/dailyQuestion";
 
-type Stage = "loading" | "asking" | "saving" | "done" | "empty" | "already-answered";
+type Stage = "loading" | "asking" | "saving" | "done" | "empty" | "already-answered" | "error";
+
+// Session is gone and couldn't be refreshed: clear it locally and send the
+// user to sign in rather than leaving them on a screen that can't load.
+async function goToSignIn() {
+  try {
+    await supabase.auth.signOut({ scope: "local" });
+  } catch {
+    // already signed out
+  }
+  router.replace("/(auth)/sign-in");
+}
 
 // The matchmaker's question of the day -- AI-personalized copy over the
 // canonical trait schema (see lib/dailyQuestion.ts). One question, one
@@ -24,37 +36,69 @@ export default function Daily() {
   const [quip, setQuip] = useState<string | null>(null);
   const [errorText, setErrorText] = useState<string | null>(null);
 
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
+
   useEffect(() => {
     let cancelled = false;
-    fetchTodaysPrompt().then((p) => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    setStage("loading");
+    setLoadError(null);
+    fetchTodaysPrompt().then((result) => {
       if (cancelled) return;
-      if (!p) {
-        setStage("empty");
-        return;
+      switch (result.status) {
+        case "unauthenticated":
+          goToSignIn();
+          return;
+        case "error":
+          setLoadError(result.message);
+          setStage("error");
+          return;
+        case "unavailable":
+          setLoadError("The matchmaker can't be reached right now.");
+          setStage("error");
+          return;
+        case "done":
+          setStage("empty");
+          return;
+        case "ok": {
+          const p = result.prompt;
+          setPrompt(p);
+          if (p.answered_at) {
+            setStage("already-answered");
+            return;
+          }
+          setStage("asking");
+          // Small typing beat before the question appears.
+          timer = setTimeout(() => !cancelled && setShowQuestion(true), 900);
+        }
       }
-      setPrompt(p);
-      if (p.answered_at) {
-        setStage("already-answered");
-        return;
-      }
-      setStage("asking");
-      // Small typing beat before the question appears.
-      setTimeout(() => !cancelled && setShowQuestion(true), 900);
     });
     return () => {
       cancelled = true;
+      if (timer) clearTimeout(timer);
     };
-  }, []);
+  }, [reloadKey]);
 
   async function submit(value: string | number, replyQuip: string | null) {
     if (!prompt || stage === "saving") return;
     setPicked(value);
     setStage("saving");
-    const error = await answerDailyPrompt(prompt.id, value);
-    if (error) {
-      setErrorText(error);
-      setStage("asking");
+    setErrorText(null);
+    const result = await answerDailyPrompt(prompt.id, value);
+    if (!result.ok) {
       setPicked(null);
+      if (result.reason === "unauthenticated") {
+        goToSignIn();
+        return;
+      }
+      if (result.reason === "already_answered") {
+        markQueueStale();
+        setStage("already-answered");
+        return;
+      }
+      setErrorText(result.message);
+      setStage("asking");
       return;
     }
     markQueueStale();
@@ -77,6 +121,18 @@ export default function Daily() {
         <View style={styles.centered}>
           <ActivityIndicator color={theme.colors.accent} />
           <Text style={styles.loadingNote}>The matchmaker is thinking of you...</Text>
+        </View>
+      )}
+
+      {stage === "error" && (
+        <View style={styles.centered}>
+          <Text style={styles.mm}>{loadError ?? "Something went sideways."} Let&rsquo;s try that again.</Text>
+          <Pressable style={styles.cta} onPress={() => setReloadKey((k) => k + 1)}>
+            <Text style={styles.ctaText}>Try again</Text>
+          </Pressable>
+          <Pressable onPress={() => router.back()}>
+            <Text style={styles.loadingNote}>Back to my deck</Text>
+          </Pressable>
         </View>
       )}
 
@@ -142,7 +198,7 @@ export default function Daily() {
             </View>
           )}
 
-          {errorText && <Text style={styles.error}>Couldn&rsquo;t save: {errorText}</Text>}
+          {errorText && <Text style={styles.error}>{errorText}</Text>}
 
           {(stage === "saving" || stage === "done") && picked !== null && (
             <View style={styles.me}>

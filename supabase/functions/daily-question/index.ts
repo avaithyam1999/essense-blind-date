@@ -17,6 +17,7 @@
 //   supabase secrets set ANTHROPIC_API_KEY=sk-ant-...
 
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { corsHeaders, pickTrait, unansweredTraits, validate, type Generated, type Trait } from "./logic.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -25,36 +26,18 @@ const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY") ?? "";
 
 const MODEL = "claude-sonnet-5";
 
-interface TraitOption {
-  value: string;
-  label: string;
-}
-
-interface Trait {
-  trait_key: string;
-  category: string;
-  type: "scale" | "single_choice";
-  options: TraitOption[] | null;
-  scale_labels: [string, string] | null;
-  default_prompt: string;
-  ai_brief: string;
-}
-
-interface Generated {
-  prompt: string;
-  options?: { value: string; label: string; quip: string }[];
-  scale_labels?: [string, string];
-  quip?: string;
-}
-
 function json(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { "Content-Type": "application/json" },
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
   });
 }
 
 Deno.serve(async (req) => {
+  // The web build calls this from the browser, so answer the CORS preflight
+  // (which carries no Authorization header) before the auth check.
+  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) return json({ error: "missing authorization" }, 401);
 
@@ -90,17 +73,13 @@ Deno.serve(async (req) => {
 
   // Traits the user hasn't answered yet (answers live in the questionnaire
   // jsonb under the trait's category).
-  const questionnaire = (profile.questionnaire ?? {}) as Record<string, Record<string, unknown>>;
-  const unanswered = (traits as Trait[]).filter(
-    (t) => (questionnaire[t.category] ?? {})[t.trait_key] === undefined
-  );
+  const unanswered = unansweredTraits(traits as Trait[], profile.questionnaire);
   if (unanswered.length === 0) {
     return json({ prompt: null, done: true, message: "all traits answered" });
   }
 
   // Deterministic pick so concurrent first-calls of the day agree.
-  const dayNumber = Math.floor(Date.parse(today) / 86_400_000);
-  const trait = unanswered[dayNumber % unanswered.length];
+  const trait = pickTrait(unanswered, today);
 
   const generated = await generate(trait, profile);
 
@@ -123,7 +102,8 @@ Deno.serve(async (req) => {
 
   // Race-safe: on conflict someone else inserted first -- return theirs.
   const { error: insertError } = await db.from("daily_prompts").insert(row);
-  if (insertError && !insertError.message.includes("duplicate")) {
+  // 23505 = unique_violation on (user_id, ask_date).
+  if (insertError && insertError.code !== "23505" && !insertError.message.includes("duplicate")) {
     return json({ error: insertError.message }, 500);
   }
 
@@ -204,31 +184,4 @@ ${schemaInstruction}`,
     console.error("generation failed", err);
     return null;
   }
-}
-
-// Anything that fails validation falls back to the trait's default phrasing.
-// The canonical values are the contract with the scoring engine.
-function validate(trait: Trait, g: Generated): boolean {
-  if (!g || typeof g.prompt !== "string" || !g.prompt.trim() || g.prompt.length > 300) return false;
-
-  if (trait.type === "single_choice") {
-    const canonical = (trait.options ?? []).map((o) => o.value).sort();
-    if (!Array.isArray(g.options)) return false;
-    const values = g.options.map((o) => o?.value).sort();
-    if (JSON.stringify(values) !== JSON.stringify(canonical)) return false;
-    return g.options.every(
-      (o) =>
-        typeof o.label === "string" &&
-        o.label.trim().length > 0 &&
-        o.label.length <= 140 &&
-        (o.quip === undefined || (typeof o.quip === "string" && o.quip.length <= 200))
-    );
-  }
-
-  return (
-    Array.isArray(g.scale_labels) &&
-    g.scale_labels.length === 2 &&
-    g.scale_labels.every((l) => typeof l === "string" && l.trim().length > 0 && l.length <= 90) &&
-    (g.quip === undefined || (typeof g.quip === "string" && g.quip.length <= 200))
-  );
 }
