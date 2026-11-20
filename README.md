@@ -32,6 +32,34 @@ npm run start
 
 Scan the QR code with the Expo Go app on your phone (iOS or Android), or press `i`/`a` in the terminal to open an iOS Simulator / Android Emulator if you have Xcode/Android Studio installed.
 
+## Deploy the web build to Vercel
+
+The app also runs in the browser (via `react-native-web`), and that build is what's hosted on Vercel. `vercel.json` already sets everything Vercel needs: it runs `npm run build:web` (`expo export --platform web`), serves the `dist/` folder, and rewrites every path to `index.html` so client-side routes like `/welcome` work on refresh.
+
+**One-time setup (connect GitHub so every push deploys):**
+
+1. In Vercel, open the existing project (or **Add New → Project**) and under **Settings → Git**, connect the `essense-blind-date` GitHub repo. Production branch: `main`.
+2. Leave **Framework Preset** as "Other". Build/output settings come from `vercel.json`, so you don't need to override anything.
+3. Under **Settings → Environment Variables**, add these for **Production** and **Preview**:
+
+   | Name | Value |
+   | --- | --- |
+   | `EXPO_PUBLIC_SUPABASE_URL` | Supabase → Project Settings → API → Project URL |
+   | `EXPO_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Project Settings → API → `anon` public key |
+
+   These are baked into the JS bundle at build time, so after changing one you must **redeploy**. Never add the service role key or `ANTHROPIC_API_KEY` to Vercel; the app doesn't need them and anything here ships to browsers.
+4. In Supabase → **Authentication → URL Configuration**, set **Site URL** to your Vercel production URL and add `https://*.vercel.app` (or your preview domain) to **Redirect URLs**, so email-confirmation links land on the deployed site instead of `localhost`.
+
+After that, pushes to `main` deploy to production and every pull request gets a preview URL.
+
+**Build locally the same way Vercel does:**
+
+```
+npm ci
+npm run build:web        # reads .env, outputs dist/
+npx serve dist --single  # optional: preview at http://localhost:3000
+```
+
 ## 4. Try it
 
 1. Sign up with a real or throwaway email (Supabase's default email confirmation may require a real inbox — you can disable "Confirm email" in Authentication → Providers → Email for local testing).
