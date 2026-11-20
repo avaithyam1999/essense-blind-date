@@ -38,13 +38,14 @@ export default function Swipe() {
     loadQueue();
   }, [loadQueue]);
 
-  // Today's AI question: show the banner while it's unanswered. Fails soft
-  // (no banner) until the backend pieces are deployed.
+  // Today's AI question: show the banner while it's unanswered. Any other
+  // outcome (done, error, backend not deployed) just hides the banner; the
+  // daily screen itself handles errors and expired sessions.
   useEffect(() => {
     if (!session) return;
     let cancelled = false;
     fetchTodaysPrompt()
-      .then((p) => !cancelled && setDailyWaiting(Boolean(p && !p.answered_at)))
+      .then((r) => !cancelled && setDailyWaiting(r.status === "ok" && !r.prompt.answered_at))
       .catch(() => !cancelled && setDailyWaiting(false));
     return () => {
       cancelled = true;
