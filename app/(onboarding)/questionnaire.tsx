@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  Alert,
   Animated,
   KeyboardAvoidingView,
   Platform,
@@ -11,6 +10,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { notify } from "@/lib/notify";
 import { router } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/AuthProvider";
@@ -252,7 +252,7 @@ export default function Questionnaire() {
     setSubmitting(false);
 
     if (error) {
-      Alert.alert("Couldn't save", error.message);
+      notify("Couldn't save", error.message);
       return;
     }
     router.push("/(onboarding)/self-description");

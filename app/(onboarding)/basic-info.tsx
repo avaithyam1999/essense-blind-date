@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet, ScrollView, Alert } from "react-native";
+import { View, Text, TextInput, Pressable, StyleSheet, ScrollView } from "react-native";
+import { notify } from "@/lib/notify";
 import { router } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/AuthProvider";
@@ -25,7 +26,7 @@ export default function BasicInfo() {
   async function handleContinue() {
     const ageNum = parseInt(age, 10);
     if (!name.trim() || !ageNum || ageNum < 18 || !gender || seeking.length === 0 || !city.trim()) {
-      Alert.alert("A few fields still need filling in", "Name, age (18+), gender, who you're seeking, and city are all required.");
+      notify("A few fields still need filling in", "Name, age (18+), gender, who you're seeking, and city are all required.");
       return;
     }
     if (!session) return;
@@ -47,7 +48,7 @@ export default function BasicInfo() {
     setSubmitting(false);
 
     if (error) {
-      Alert.alert("Couldn't save", error.message);
+      notify("Couldn't save", error.message);
       return;
     }
     router.push("/(onboarding)/questionnaire");

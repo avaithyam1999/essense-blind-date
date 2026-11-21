@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet, Alert, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, TextInput, Pressable, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
+import { friendlyAuthError } from "@/lib/authErrors";
 import { Link, router } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { theme } from "@/lib/theme";
@@ -9,20 +10,48 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [message, setMessage] = useState<{ kind: "error" | "info"; text: string } | null>(null);
 
   async function handleSignUp() {
-    if (!email || password.length < 8) {
-      Alert.alert("Almost there", "Enter an email and a password with at least 8 characters.");
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail || password.length < 8) {
+      setMessage({ kind: "error", text: "Enter an email and a password with at least 8 characters." });
       return;
     }
+    setMessage(null);
     setSubmitting(true);
-    const { error } = await supabase.auth.signUp({ email, password });
-    setSubmitting(false);
-    if (error) {
-      Alert.alert("Couldn't create account", error.message);
-      return;
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: trimmedEmail,
+        password,
+        options: {
+          // On web, send the confirmation link back to whichever deploy the user
+          // signed up on (production or a preview), not Supabase's Site URL default.
+          emailRedirectTo: Platform.OS === "web" && typeof window !== "undefined" ? window.location.origin : undefined,
+        },
+      });
+      if (error) {
+        setMessage({ kind: "error", text: friendlyAuthError(error.message) });
+        return;
+      }
+      // With "Confirm email" on, Supabase doesn't return an error for an
+      // already-registered address (to avoid leaking which emails exist). It
+      // returns a user with no identities instead.
+      if (data.user && data.user.identities?.length === 0) {
+        setMessage({ kind: "error", text: "That email is already registered. Sign in instead, or reset your password." });
+        return;
+      }
+      if (!data.session) {
+        // "Confirm email" is on: no session until the link is clicked.
+        setMessage({ kind: "info", text: `Check your email. We sent a confirmation link to ${trimmedEmail}. Open it, then sign in.` });
+        return;
+      }
+      router.replace("/(onboarding)/basic-info");
+    } catch (e) {
+      setMessage({ kind: "error", text: "Couldn't reach the server. Check your connection and try again." });
+    } finally {
+      setSubmitting(false);
     }
-    router.replace("/(onboarding)/basic-info");
   }
 
   return (
@@ -49,7 +78,13 @@ export default function SignUp() {
         onChangeText={setPassword}
       />
 
-      <Pressable style={styles.button} onPress={handleSignUp} disabled={submitting}>
+      {message && (
+        <Text style={message.kind === "error" ? styles.error : styles.info} accessibilityLiveRegion="polite">
+          {message.text}
+        </Text>
+      )}
+
+      <Pressable style={[styles.button, submitting && styles.buttonDisabled]} onPress={handleSignUp} disabled={submitting}>
         <Text style={styles.buttonText}>{submitting ? "Creating account..." : "Create account"}</Text>
       </Pressable>
 
@@ -90,6 +125,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 8,
   },
+  buttonDisabled: { opacity: 0.6 },
+  error: { color: theme.colors.danger, fontSize: 14, marginTop: 4, marginBottom: 4 },
+  info: { color: theme.colors.textPrimary, fontSize: 14, marginTop: 4, marginBottom: 4 },
   buttonText: { color: "#fff", fontSize: 15, fontWeight: "600" },
   link: { textAlign: "center", color: theme.colors.accent, marginTop: 20, fontSize: 13 },
 });

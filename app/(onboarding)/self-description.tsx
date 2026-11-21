@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet, ScrollView, Alert } from "react-native";
+import { View, Text, TextInput, Pressable, StyleSheet, ScrollView } from "react-native";
+import { notify } from "@/lib/notify";
 import { router } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/AuthProvider";
@@ -16,7 +17,7 @@ export default function SelfDescription() {
 
   async function handleContinue() {
     if (bio.trim().length < 20) {
-      Alert.alert("Tell us a bit more", "Your bio should be at least a couple of sentences -- this is most of what people see before matching.");
+      notify("Tell us a bit more", "Your bio should be at least a couple of sentences -- this is most of what people see before matching.");
       return;
     }
     if (!session) return;
@@ -29,7 +30,7 @@ export default function SelfDescription() {
     setSubmitting(false);
 
     if (error) {
-      Alert.alert("Couldn't save", error.message);
+      notify("Couldn't save", error.message);
       return;
     }
     router.push("/(onboarding)/physical-description");
