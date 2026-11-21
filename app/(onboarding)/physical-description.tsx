@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet, ScrollView, Alert } from "react-native";
+import { View, Text, TextInput, Pressable, StyleSheet, ScrollView } from "react-native";
+import { notify } from "@/lib/notify";
 import { router } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/AuthProvider";
@@ -25,7 +26,7 @@ export default function PhysicalDescription() {
 
   async function handleFinish() {
     if (!requiredFilled) {
-      Alert.alert("A few required fields left", "Favorite feature, style & vibe, hair, and how people describe your energy are all required. Build, height, and signature detail are optional.");
+      notify("A few required fields left", "Favorite feature, style & vibe, hair, and how people describe your energy are all required. Build, height, and signature detail are optional.");
       return;
     }
     if (!session) return;
@@ -49,7 +50,7 @@ export default function PhysicalDescription() {
     setSubmitting(false);
 
     if (error) {
-      Alert.alert("Couldn't save", error.message);
+      notify("Couldn't save", error.message);
       return;
     }
     router.replace("/(main)/swipe");

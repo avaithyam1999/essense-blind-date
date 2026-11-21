@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet, Alert, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, TextInput, Pressable, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
+import { friendlyAuthError } from "@/lib/authErrors";
 import { Link, router } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { theme } from "@/lib/theme";
@@ -9,16 +10,27 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [errorText, setErrorText] = useState<string | null>(null);
 
   async function handleSignIn() {
-    setSubmitting(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setSubmitting(false);
-    if (error) {
-      Alert.alert("Couldn't sign in", error.message);
+    if (!email.trim() || !password) {
+      setErrorText("Enter your email and password.");
       return;
     }
-    router.replace("/");
+    setErrorText(null);
+    setSubmitting(true);
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+      if (error) {
+        setErrorText(friendlyAuthError(error.message));
+        return;
+      }
+      router.replace("/");
+    } catch (e) {
+      setErrorText("Couldn't reach the server. Check your connection and try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -44,7 +56,13 @@ export default function SignIn() {
         onChangeText={setPassword}
       />
 
-      <Pressable style={styles.button} onPress={handleSignIn} disabled={submitting}>
+      {errorText && (
+        <Text style={styles.error} accessibilityLiveRegion="polite">
+          {errorText}
+        </Text>
+      )}
+
+      <Pressable style={[styles.button, submitting && styles.buttonDisabled]} onPress={handleSignIn} disabled={submitting}>
         <Text style={styles.buttonText}>{submitting ? "Signing in..." : "Sign in"}</Text>
       </Pressable>
 
@@ -84,6 +102,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 8,
   },
+  buttonDisabled: { opacity: 0.6 },
+  error: { color: theme.colors.danger, fontSize: 14, marginTop: 4, marginBottom: 4 },
   buttonText: { color: "#fff", fontSize: 15, fontWeight: "600" },
   link: { textAlign: "center", color: theme.colors.accent, marginTop: 20, fontSize: 13 },
 });
